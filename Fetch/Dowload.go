@@ -13,7 +13,7 @@ import (
 import . "../Log"
 
 func DowloadFile(filePath string, fileUrl string) error {
-	var client= http.DefaultClient
+	var client = http.DefaultClient
 	client.Timeout = time.Second * 60
 	var reader io.Reader
 	resp, err := client.Post(fileUrl, "", reader)
@@ -60,8 +60,8 @@ func DowloadFile(filePath string, fileUrl string) error {
 	return nil
 }
 
-func GitHubDownloadGet(fileUrl string) (string,error) {
-	var client= http.DefaultClient
+func GitHubDownloadGet(fileUrl string) (string, error) {
+	var client = http.DefaultClient
 	client.Timeout = time.Second * 60
 	resp, err := client.Get(fileUrl)
 	if err != nil {
