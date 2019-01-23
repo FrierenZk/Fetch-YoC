@@ -13,13 +13,10 @@ import (
 import . "../Log"
 
 func DowloadFile(filePath string, fileUrl string) error {
-	var client = http.DefaultClient
+	var client= http.DefaultClient
 	client.Timeout = time.Second * 60
-	var reader io.Reader
-	resp, err := client.Post(fileUrl, "", reader)
-	defer func() {
-		_ = resp.Body.Close()
-	}()
+	//var reader io.Reader
+	resp, err := client.Get(fileUrl)
 	if err != nil {
 		Log.Println(err)
 		return err
@@ -33,12 +30,12 @@ func DowloadFile(filePath string, fileUrl string) error {
 		Log.Println(err)
 		filePath += "YoC"
 	}
-	file, err := os.OpenFile(filePath, os.O_TRUNC|os.O_WRONLY, 777)
+	file, err := os.OpenFile(filePath, os.O_TRUNC|os.O_WRONLY|os.O_CREATE, 777)
 	if err != nil {
 		Log.Println(err)
 		return err
 	}
-	scanner, writer := bufio.NewReader(reader), bufio.NewWriter(file)
+	scanner, writer := bufio.NewReader(resp.Body), bufio.NewWriter(file)
 	length, _ := strconv.ParseInt(resp.Header.Get("Content-Length"), 10, 64)
 	var readCount int64 = 0
 	for readCount < length {
@@ -57,6 +54,10 @@ func DowloadFile(filePath string, fileUrl string) error {
 		Log.Println(err)
 		return err
 	}
+	defer func() {
+		_ = resp.Body.Close()
+		_ = file.Close()
+	}()
 	return nil
 }
 

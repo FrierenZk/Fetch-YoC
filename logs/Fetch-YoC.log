@@ -1,0 +1,33 @@
+2019/01/23 23:56:44 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:57:11 Dowload.go:24: Post : unsupported protocol scheme ""
+2019/01/23 23:57:44 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:57:57 Dowload.go:24: Post : unsupported protocol scheme ""
+2019/01/23 23:58:24 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:58:28 Dowload.go:24: Post : unsupported protocol scheme ""
+2019/01/23 23:58:46 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:58:49 Dowload.go:21: Post : unsupported protocol scheme ""
+2019/01/23 23:58:49 FetchLog.go:28: normal exit
+2019/01/23 23:58:49 FetchLog.go:30: ---------------Log End----------------
+2019/01/23 23:59:01 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:59:15 FetchLog.go:17: ---------------Log Start---------------
+2019/01/23 23:59:24 Dowload.go:21: Post : unsupported protocol scheme ""
+2019/01/23 23:59:43 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:00:11 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:01:53 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:02:01 Dowload.go:30: can't get filename
+2019/01/24 00:03:44 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:03:55 Dowload.go:35: open E:\GitHubshadowsocks--universal-4.7.0.apk: The system cannot find the file specified.
+2019/01/24 00:04:14 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:04:34 Dowload.go:51: download complete
+2019/01/24 00:04:34 FetchLog.go:28: normal exit
+2019/01/24 00:04:34 FetchLog.go:30: ---------------Log End----------------
+2019/01/24 00:05:31 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:05:52 Dowload.go:51: download complete
+2019/01/24 00:05:52 FetchLog.go:28: normal exit
+2019/01/24 00:05:52 FetchLog.go:30: ---------------Log End----------------
+2019/01/24 00:06:26 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:06:40 Dowload.go:51: download complete
+2019/01/24 00:08:24 FetchLog.go:17: ---------------Log Start---------------
+2019/01/24 00:08:27 Dowload.go:51: download complete
+2019/01/24 00:08:27 FetchLog.go:28: normal exit
+2019/01/24 00:08:27 FetchLog.go:30: ---------------Log End----------------
