@@ -3,6 +3,7 @@ package Fetch
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -12,7 +13,14 @@ import (
 )
 import . "../Log"
 
+const githubPage = "https://github.com/"
+const projectName = "shadowsocks/shadowsocks-windows"
+const projectReleases = projectName +"/releases"
+const githubProjectPage = githubPage + projectReleases
+var download string
+
 func DowloadFile(filePath string, fileUrl string) error {
+	fileUrl=download
 	var client= http.DefaultClient
 	client.Timeout = time.Second * 60
 	//var reader io.Reader
@@ -61,13 +69,46 @@ func DowloadFile(filePath string, fileUrl string) error {
 	return nil
 }
 
-func GitHubDownloadGet(fileUrl string) (string, error) {
-	var client = http.DefaultClient
+func GitHubDownloadGet() (ver string,err error) {
+	fileUrl := githubProjectPage + "/latest"
+	var client, downloadLink= http.DefaultClient, ""
 	client.Timeout = time.Second * 60
 	resp, err := client.Get(fileUrl)
 	if err != nil {
 		Log.Println(err)
 		return "", err
 	}
-	return resp.Header.Get("Location"), nil
+	scanner := bufio.NewReader(resp.Body)
+	bytes, err := scanner.ReadBytes('\n')
+	for err != io.EOF || err == nil {
+		line := string(bytes)
+		if strings.Contains(line, projectReleases+"/download") {
+			downloadLink = line
+			fmt.Println(line)
+			break
+		}
+		bytes, err = scanner.ReadBytes('\n')
+	}
+	strArr := strings.Split(downloadLink, "\"")
+	for _, str := range strArr {
+		if strings.Contains(str, projectReleases) {
+			download = str
+			break
+		}
+	}
+	ver = getVersion(download)
+	return ver, nil
+}
+
+func getVersion(str string)(ver string) {
+	strArr := strings.Split(str, "/")
+	var i int
+	for i = 0; i < len(strArr); i++ {
+		if strArr[i] == "download" {
+			break
+		}
+	}
+	ver = strArr[i+1]
+	Log.Println("find latest version : ", ver)
+	return ver
 }
