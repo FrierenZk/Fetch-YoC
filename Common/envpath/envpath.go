@@ -9,18 +9,18 @@ import (
 	"strings"
 )
 
-var appDir = func()string{
+var appDir = func()string {
 	switch runtime.GOOS {
 	case "windows":
-		path,err :=filepath.Abs("./")
-		if err!=nil{
+		path, err := filepath.Abs("./")
+		if err != nil {
 			log.Fatal(err)
 		}
 		return filepath.ToSlash(path)
 	case "linux":
 		return "/root/"
 	default:
-		log.Fatal("opration system type err: "+runtime.GOOS)
+		log.Fatal("opration system type err: " + runtime.GOOS)
 		return ""
 	}
 }
@@ -34,13 +34,13 @@ func GetParentDir(srcPath string) (dstPath string,err error) {
 		srcPath = srcPath[:len(srcPath)-1]
 	}
 	var index = strings.LastIndexByte(srcPath, '/')
-	dstPath = srcPath[:index+1]
+	dstPath = srcPath[:index]
 	_, err = os.Stat(dstPath)
 	return dstPath, err
 }
 
 func CheckMakeDir(dir string) error {
-	_,err := os.Stat(dir)
+	_, err := os.Stat(dir)
 	if os.IsNotExist(err) {
 		err = os.Mkdir(dir, os.ModePerm)
 	}
@@ -48,11 +48,8 @@ func CheckMakeDir(dir string) error {
 }
 
 func GetSubPath(srcPath string,subDir string)(dstPath string,err error) {
-	if srcPath[len(srcPath)-1]=='/' {
+	if srcPath[len(srcPath)-1] == '/' {
 		srcPath = srcPath[:len(srcPath)-1]
-	}
-	if subDir[0]=='/' {
-		subDir = subDir[1:]
 	}
 	dstPath = srcPath + "/" + subDir
 	_, err = ioutil.ReadDir(dstPath)
@@ -63,7 +60,7 @@ func GetSubPath(srcPath string,subDir string)(dstPath string,err error) {
 }
 
 func GetSubFile(srcPath string,subFile string)(dstPath string,err error) {
-	if srcPath[len(srcPath)-1]=='/' {
+	if srcPath[len(srcPath)-1] == '/' {
 		srcPath = srcPath[:len(srcPath)-1]
 	}
 	dstPath = srcPath + "/" + subFile
