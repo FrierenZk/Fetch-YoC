@@ -19,9 +19,9 @@ const projectReleases = projectName +"/releases"
 const githubProjectPage = githubPage + projectReleases
 var download string
 
-func DowloadFile(filePath string, fileUrl string) error {
-	fileUrl=download
-	var client= http.DefaultClient
+func DowloadFile(filePath string) error {
+	var fileUrl = download
+	var client = http.DefaultClient
 	client.Timeout = time.Second * 60
 	//var reader io.Reader
 	resp, err := client.Get(fileUrl)
@@ -97,6 +97,7 @@ func GitHubDownloadGet() (ver string,err error) {
 		}
 	}
 	ver = getVersion(download)
+	download = githubPage + download
 	return ver, nil
 }
 
