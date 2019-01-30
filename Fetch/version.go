@@ -32,10 +32,10 @@ func GetVersion() (ver string) {
 	}
 	scanner := bufio.NewReader(file)
 	bytes, err := scanner.ReadBytes('\n')
-	if err != nil&&err!=io.EOF {
+	if err != nil && err != io.EOF {
 		Log.Fatal(err)
 	}
-	var global= make(map[string]string)
+	var global = make(map[string]string)
 	err = json.Unmarshal(bytes, &global)
 	if err != nil {
 		Log.Println(err)

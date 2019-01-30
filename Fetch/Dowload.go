@@ -15,8 +15,9 @@ import . "../Log"
 
 const githubPage = "https://github.com/"
 const projectName = "shadowsocks/shadowsocks-windows"
-const projectReleases = projectName +"/releases"
+const projectReleases = projectName + "/releases"
 const githubProjectPage = githubPage + projectReleases
+
 var download string
 
 func DowloadFile(filePath string) error {
@@ -69,9 +70,9 @@ func DowloadFile(filePath string) error {
 	return nil
 }
 
-func GitHubDownloadGet() (ver string,err error) {
+func GitHubDownloadGet() (ver string, err error) {
 	fileUrl := githubProjectPage + "/latest"
-	var client, downloadLink= http.DefaultClient, ""
+	var client, downloadLink = http.DefaultClient, ""
 	client.Timeout = time.Second * 60
 	resp, err := client.Get(fileUrl)
 	if err != nil {
@@ -101,7 +102,7 @@ func GitHubDownloadGet() (ver string,err error) {
 	return ver, nil
 }
 
-func getVersion(str string)(ver string) {
+func getVersion(str string) (ver string) {
 	strArr := strings.Split(str, "/")
 	var i int
 	for i = 0; i < len(strArr); i++ {
