@@ -12,9 +12,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//fileUrl,err := Fetch.GitHubDownloadGet("https://github.com/shadowsocks/shadowsocks-android/releases/download/v4.7.0/shadowsocks--universal-4.7.0.apk")
-	//err =Fetch.DowloadFile("E:\\GitHub\\","https://github.com/shadowsocks/shadowsocks-android/releases/download/v4.7.0/shadowsocks--universal-4.7.0.apk")
-	ver,err := Fetch.GitHubDownloadGet()
-	fmt.Println(ver)
+	//latestVer,err := Fetch.GitHubDownloadGet()
+	//fmt.Println(ver)
+	//err =Fetch.DowloadFile("E:/")
+	originVer := Fetch.GetVersion()
+	fmt.Println(originVer)
 	FetchLog.LogExit(nil)
 }
