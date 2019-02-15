@@ -28,7 +28,8 @@ func GetVersion() (ver string) {
 	//Read file
 	file, err := os.OpenFile(filePath, os.O_RDONLY, os.ModePerm)
 	if err != nil {
-		DebugLogger.Fatal(err)
+		DebugLogger.Println(err)
+		return "0.0.0"
 	}
 	scanner := bufio.NewReader(file)
 	bytes, err := scanner.ReadBytes('\n')
@@ -41,6 +42,11 @@ func GetVersion() (ver string) {
 		DebugLogger.Println(err)
 		return "0.0.0"
 	}
-	ver = global["Version"]
-	return ver
+	if ver, ok := global["Version"]; ok {
+		DebugLogger.Println("current version", ver)
+		return ver
+	} else {
+		DebugLogger.Println("current version not exist")
+		return "0.0.0"
+	}
 }
