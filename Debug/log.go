@@ -2,6 +2,7 @@ package FetchLog
 
 import (
 	"../Envpath"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -60,4 +61,8 @@ func openLog() *os.File {
 		log.Println(err)
 	}
 	return file
+}
+
+func GetLogWriter() io.Writer {
+	return logFile
 }
