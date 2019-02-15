@@ -1,44 +1,44 @@
 package Fetch
 
 import (
-	"../Common/envpath"
+	"../Envpath"
 	"bufio"
 	"encoding/json"
 	"io"
 	"os"
 )
-import . "../Log"
+import . "../Debug"
 
 func GetVersion() (ver string) {
 	//Get info file path
-	var dirPath = envpath.GetAppDir()
-	dirPath, err := envpath.GetParentDir(dirPath)
+	var dirPath = Envpath.GetAppDir()
+	dirPath, err := Envpath.GetParentDir(dirPath)
 	if err != nil {
-		Log.Fatal(err)
+		DebugLogger.Fatal(err)
 	}
-	dirPath, err = envpath.GetSubPath(dirPath, "YoC")
+	dirPath, err = Envpath.GetSubPath(dirPath, "YoC")
 	if err != nil {
-		Log.Fatal(err)
+		DebugLogger.Fatal(err)
 	}
-	filePath, err := envpath.GetSubFile(dirPath, "YoC.info")
+	filePath, err := Envpath.GetSubFile(dirPath, "YoC.info")
 	if err != nil {
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return "0.0.0"
 	}
 	//Read file
 	file, err := os.OpenFile(filePath, os.O_RDONLY, os.ModePerm)
 	if err != nil {
-		Log.Fatal(err)
+		DebugLogger.Fatal(err)
 	}
 	scanner := bufio.NewReader(file)
 	bytes, err := scanner.ReadBytes('\n')
 	if err != nil && err != io.EOF {
-		Log.Fatal(err)
+		DebugLogger.Fatal(err)
 	}
 	var global = make(map[string]string)
 	err = json.Unmarshal(bytes, &global)
 	if err != nil {
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return "0.0.0"
 	}
 	ver = global["Version"]

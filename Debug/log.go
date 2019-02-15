@@ -1,21 +1,20 @@
 package FetchLog
 
 import (
+	"../Envpath"
 	"log"
 	"os"
 	"time"
 )
 
-import "../Common/envpath"
-
-var Log *log.Logger
+var DebugLogger *log.Logger
 var logFile *os.File
 
 func LogInit() error {
 	log.SetFlags(log.LstdFlags | log.Lshortfile | log.Ltime)
 	logFile = openLog()
-	Log = log.New(logFile, "", log.LstdFlags|log.Lshortfile|log.Ltime)
-	Log.Println("---------------Log Start---------------")
+	DebugLogger = log.New(logFile, "", log.LstdFlags|log.Lshortfile|log.Ltime)
+	DebugLogger.Println("---------------Debug Start---------------")
 	return nil
 }
 
@@ -24,15 +23,15 @@ func LogExit(ec error) {
 		_ = logFile.Close()
 	}()
 	if ec != nil {
-		Log.Println("exit with error", ec)
+		DebugLogger.Println("exit with error", ec)
 	} else {
-		Log.Println("normal exit")
+		DebugLogger.Println("normal exit")
 	}
-	Log.Println("---------------Log End----------------")
+	DebugLogger.Println("---------------Debug End----------------")
 }
 
 func openLog() *os.File {
-	var filePath = envpath.GetAppDir() + "/logs/Fetch-YoC.log"
+	var filePath = Envpath.GetAppDir() + "/logs/Fetch-YoC.log"
 	stat, err := os.Stat(filePath)
 	if err != nil {
 		log.Println(err)
@@ -46,8 +45,8 @@ func openLog() *os.File {
 			}
 		}
 	}
-	dir, err := envpath.GetParentDir(filePath)
-	err = envpath.CheckMakeDir(dir)
+	dir, err := Envpath.GetParentDir(filePath)
+	err = Envpath.CheckMakeDir(dir)
 	if err != nil {
 		log.Fatal(err)
 	}

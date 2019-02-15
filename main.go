@@ -1,8 +1,8 @@
 package main
 
 import (
+	"./Debug"
 	"./Fetch"
-	"./Log"
 	"fmt"
 	"log"
 )

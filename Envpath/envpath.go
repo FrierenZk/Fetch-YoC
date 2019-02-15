@@ -1,4 +1,4 @@
-package envpath
+package Envpath
 
 import (
 	"io/ioutil"
@@ -18,9 +18,17 @@ var appDir = func() string {
 		}
 		return filepath.ToSlash(path)
 	case "linux":
-		return "/root/"
+		path, err := filepath.Abs("./")
+		if err != nil {
+			log.Fatal(err)
+		}
+		path, err = GetParentDir(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return path
 	default:
-		log.Fatal("opration system type err: " + runtime.GOOS)
+		log.Fatal("operation system type err: " + runtime.GOOS)
 		return ""
 	}
 }

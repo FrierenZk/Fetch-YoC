@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 )
-import . "../Log"
+import . "../Debug"
 
 const githubPage = "https://github.com/"
 const projectName = "shadowsocks/shadowsocks-windows"
@@ -27,7 +27,7 @@ func DowloadFile(filePath string) error {
 	//var reader io.Reader
 	resp, err := client.Get(fileUrl)
 	if err != nil {
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return err
 	}
 	disposition := resp.Header.Get("Content-Disposition")
@@ -36,12 +36,12 @@ func DowloadFile(filePath string) error {
 		filePath += filename[1]
 	} else {
 		err = errors.New("can't get filename")
-		Log.Println(err)
+		DebugLogger.Println(err)
 		filePath += "YoC"
 	}
 	file, err := os.OpenFile(filePath, os.O_TRUNC|os.O_WRONLY|os.O_CREATE, 777)
 	if err != nil {
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return err
 	}
 	scanner, writer := bufio.NewReader(resp.Body), bufio.NewWriter(file)
@@ -50,17 +50,17 @@ func DowloadFile(filePath string) error {
 	for readCount < length {
 		data, err := scanner.Peek(4096)
 		if err != nil && err != io.EOF {
-			Log.Println(err)
+			DebugLogger.Println(err)
 			return err
 		}
 		_, _ = writer.Write(data)
 		readCount += 4096
 	}
 	if readCount >= length {
-		Log.Println("download complete")
+		DebugLogger.Println("download complete")
 	} else {
 		err = errors.New("download size error")
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return err
 	}
 	defer func() {
@@ -76,7 +76,7 @@ func GitHubDownloadGet() (ver string, err error) {
 	client.Timeout = time.Second * 60
 	resp, err := client.Get(fileUrl)
 	if err != nil {
-		Log.Println(err)
+		DebugLogger.Println(err)
 		return "", err
 	}
 	scanner := bufio.NewReader(resp.Body)
@@ -111,6 +111,6 @@ func getVersion(str string) (ver string) {
 		}
 	}
 	ver = strArr[i+1]
-	Log.Println("find latest version : ", ver)
+	DebugLogger.Println("find latest version : ", ver)
 	return ver
 }
