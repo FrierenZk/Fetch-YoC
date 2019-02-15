@@ -8,7 +8,9 @@ import (
 	"time"
 )
 
-var timeRecord time.Time
+const checkFreq = time.Minute * 15
+
+//var timeRecord time.Time
 
 func main() {
 	err := LogInit()
@@ -32,12 +34,12 @@ func main() {
 			if latestVer != originVer {
 				Fetch.Update()
 			}
-		case <-time.After(time.Minute * 15):
+		case <-time.After(checkFreq):
 			var now = time.Now()
-			if now.Day() != timeRecord.Day() {
-				update <- ""
-			}
-			timeRecord = now
+			//if now.Day() != timeRecord.Day() {
+			update <- ""
+			//}
+			//timeRecord = now
 			DebugLogger.Println(now, "  time tick")
 		}
 	}
