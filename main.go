@@ -1,21 +1,44 @@
 package main
 
 import (
-	"./Debug"
+	. "./Debug"
 	"./Fetch"
 	"fmt"
 	"log"
+	"time"
 )
 
+var timeRecord time.Time
+
 func main() {
-	err := FetchLog.LogInit()
+	err := LogInit()
 	if err != nil {
 		log.Fatal(err)
 	}
-	//latestVer,err := Fetch.GitHubDownloadGet()
-	//fmt.Println(ver)
-	//err =Fetch.DowloadFile("E:/")
-	originVer := Fetch.GetVersion()
-	fmt.Println(originVer)
-	FetchLog.LogExit(nil)
+	defer LogExit(nil)
+	var update = make(chan string, 1)
+	update <- ""
+	for {
+		select {
+		case <-update:
+			latestVer, err := Fetch.GitHubDownloadGet()
+			if err != nil {
+				DebugLogger.Println(err)
+				continue
+			}
+			fmt.Println("latest version", latestVer)
+			originVer := Fetch.GetVersion()
+			fmt.Println("origin version", originVer)
+			if latestVer != originVer {
+				Fetch.Update()
+			}
+		case <-time.After(time.Minute * 15):
+			var now = time.Now()
+			if now.Day() != timeRecord.Day() {
+				update <- ""
+			}
+			timeRecord = now
+			DebugLogger.Println(now, "  time tick")
+		}
+	}
 }
