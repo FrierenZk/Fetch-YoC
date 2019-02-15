@@ -34,6 +34,7 @@ func Update() {
 	}
 	//TODO check and kill the YoC process
 	copyFile(filepath + "/" + filename)
+	//TODO restart the YoC process
 }
 
 func GitHubDownloadGet() (ver string, err error) {
