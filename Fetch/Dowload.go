@@ -33,8 +33,11 @@ func Update() {
 		return
 	}
 	//TODO check and kill the YoC process
+	kill()
+	//
 	copyFile(filepath + "/" + filename)
 	//TODO restart the YoC process
+	start()
 }
 
 func GitHubDownloadGet() (ver string, err error) {
