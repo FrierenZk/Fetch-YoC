@@ -4,6 +4,7 @@ import (
 	"../Envpath"
 	"bufio"
 	"encoding/json"
+	"errors"
 	"io"
 	"os"
 )
@@ -11,22 +12,11 @@ import . "../Debug"
 
 func GetVersion() (ver string) {
 	//Get info file path
-	var dirPath = Envpath.GetAppDir()
-	dirPath, err := Envpath.GetParentDir(dirPath)
+	var dirPath, err = Envpath.GetAppDir(), errors.New("")
+	dirPath, _ = Envpath.GetSubPath(dirPath, "YoC")
+	err = Envpath.CheckMakeDir(dirPath)
 	if err != nil {
 		DebugLogger.Fatal(err)
-	}
-	dirPath, err = Envpath.GetSubPath(dirPath, "YoC")
-	if err != nil {
-		if os.IsNotExist(err) {
-			DebugLogger.Println(err)
-			err = Envpath.CheckMakeDir(dirPath)
-			if err != nil {
-				DebugLogger.Fatal(err)
-			}
-		} else {
-			DebugLogger.Fatal(err)
-		}
 	}
 	filePath, err := Envpath.GetSubFile(dirPath, "YoC.info")
 	if err != nil {

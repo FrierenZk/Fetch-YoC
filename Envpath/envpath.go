@@ -22,12 +22,10 @@ var appDir = func() string {
 		if err != nil {
 			log.Fatal(err)
 		}
-		/*
-			path, err = GetParentDir(path)
-			if err != nil {
-				log.Fatal(err)
-			}
-		*/
+		path, err = GetParentDir(path)
+		if err != nil {
+			log.Fatal(err)
+		}
 		return path
 	default:
 		log.Fatal("operation system type err: " + runtime.GOOS)
