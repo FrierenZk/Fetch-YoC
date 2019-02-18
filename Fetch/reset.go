@@ -5,7 +5,6 @@ import (
 	"../Envpath"
 	"os/exec"
 	"runtime"
-	"syscall"
 )
 
 var cmd *exec.Cmd = nil
@@ -19,7 +18,7 @@ func kill() {
 	if cmd == nil {
 		return
 	}
-	err := cmd.Process.Signal(syscall.SIGKILL)
+	err := cmd.Process.Kill()
 	if err != nil {
 		DebugLogger.Println(err)
 	}
@@ -45,7 +44,7 @@ func start() {
 	if err != nil {
 		DebugLogger.Println(err)
 	}
-	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	//cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	err = cmd.Start()
 	if err != nil {
 		DebugLogger.Println(err)
