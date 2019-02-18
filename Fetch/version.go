@@ -7,13 +7,16 @@ import (
 	"errors"
 	"io"
 	"os"
+	"runtime"
 )
 import . "../Debug"
 
 func GetVersion() (ver string) {
 	//Get info file path
 	var dirPath, err = Envpath.GetAppDir(), errors.New("")
-	dirPath, _ = Envpath.GetSubPath(dirPath, "YoC")
+	if runtime.GOOS == "windows" {
+		dirPath, _ = Envpath.GetSubPath(dirPath, "YoC")
+	}
 	err = Envpath.CheckMakeDir(dirPath)
 	if err != nil {
 		DebugLogger.Fatal(err, dirPath)
