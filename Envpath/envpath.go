@@ -62,7 +62,7 @@ func GetSubPath(srcPath string, subDir string) (dstPath string, err error) {
 	dstPath = srcPath + "/" + subDir
 	_, err = ioutil.ReadDir(dstPath)
 	if err != nil {
-		return "", err
+		return dstPath, err
 	}
 	return dstPath, nil
 }
