@@ -47,7 +47,7 @@ func GitHubDownloadGet() (ver string, err error) {
 	resp, err := client.Get(fileUrl)
 	if err != nil {
 		DebugLogger.Println(err)
-		return "", err
+		return "0.0.0", err
 	}
 	scanner := bufio.NewReader(resp.Body)
 	bytes, err := scanner.ReadBytes('\n')
@@ -81,8 +81,8 @@ func getVersion(str string) (ver string) {
 		}
 	}
 	if len(strArr) < i+2 {
-		DebugLogger.Println("link error :", str)
-		return ""
+		DebugLogger.Println("can not download version :", str)
+		return "0.0.0"
 	}
 	ver = strArr[i+1]
 	filename = strArr[i+2]
