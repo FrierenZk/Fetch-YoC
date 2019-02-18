@@ -16,7 +16,7 @@ func GetVersion() (ver string) {
 	dirPath, _ = Envpath.GetSubPath(dirPath, "YoC")
 	err = Envpath.CheckMakeDir(dirPath)
 	if err != nil {
-		DebugLogger.Fatal(err)
+		DebugLogger.Fatal(err, dirPath)
 	}
 	filePath, err := Envpath.GetSubFile(dirPath, "YoC.info")
 	if err != nil {
