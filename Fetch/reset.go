@@ -44,7 +44,6 @@ func start() {
 	if err != nil {
 		DebugLogger.Println(err)
 	}
-	//cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	err = cmd.Start()
 	if err != nil {
 		DebugLogger.Println(err)

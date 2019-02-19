@@ -10,8 +10,6 @@ import (
 
 const checkFreq = time.Minute * 15
 
-//var timeRecord time.Time
-
 func main() {
 	err := LogInit()
 	if err != nil {
@@ -36,10 +34,7 @@ func main() {
 			}
 		case <-time.After(checkFreq):
 			var now = time.Now()
-			//if now.Day() != timeRecord.Day() {
 			update <- ""
-			//}
-			//timeRecord = now
 			DebugLogger.Println(now, "  time tick")
 		}
 	}
