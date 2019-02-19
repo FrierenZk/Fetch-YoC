@@ -117,6 +117,7 @@ func downloadFile(filePath string) error {
 	length, _ := strconv.ParseInt(resp.Header.Get("Content-Length"), 10, 64)
 	DebugLogger.Println("download file size", length)
 	var readCount int64 = 0
+	var t = time.Now().Unix()
 	for readCount < length {
 		data, err := scanner.ReadBytes(0)
 		if err != nil && err != io.EOF {
@@ -138,7 +139,12 @@ func downloadFile(filePath string) error {
 	_ = writer.Flush()
 
 	if readCount >= length {
+		fmt.Println("download complete")
 		DebugLogger.Println("download complete")
+		var t2 = time.Now().Unix()
+		DebugLogger.Println("download time", t2-t)
+		var speed = fmt.Sprintf("%.2f", float64(length/(t2-t))/1024)
+		DebugLogger.Println("average download speed", speed, "kB/s")
 	} else {
 		err = errors.New("download size error")
 		DebugLogger.Println(err)
@@ -166,7 +172,6 @@ func copyFile(src string) {
 		return
 	}
 	srcFile, err := os.OpenFile(src, os.O_RDONLY, os.ModePerm)
-	defer func() { _ = srcFile.Close() }()
 	if err != nil {
 		DebugLogger.Println(err)
 		return
@@ -175,5 +180,12 @@ func copyFile(src string) {
 	DebugLogger.Println(n, "bytes copied")
 	if err != nil {
 		DebugLogger.Println(err)
+	}
+	_ = srcFile.Close()
+	err = os.Remove(src)
+	if err != nil {
+		DebugLogger.Println(err)
+	} else {
+		DebugLogger.Println("temporary file deleted", src)
 	}
 }
