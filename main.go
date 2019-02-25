@@ -8,7 +8,9 @@ import (
 	"time"
 )
 
-const checkFreq = time.Minute * 15
+const watchFreq = time.Minute
+const checkFreq = time.Minute * 5
+const tickFreq = time.Hour
 
 func main() {
 	err := LogInit()
@@ -33,9 +35,9 @@ func main() {
 				Fetch.Update()
 			}
 		case <-time.After(checkFreq):
-			var now = time.Now()
 			update <- ""
-			DebugLogger.Println(now, "  time tick")
+		case <-time.After(tickFreq):
+			DebugLogger.Println(time.Now(), "  time tick")
 		}
 	}
 }
