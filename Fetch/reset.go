@@ -51,6 +51,9 @@ func start() {
 }
 
 func Watch() {
+	if cmd == nil {
+		return
+	}
 	if cmd.ProcessState.Exited() {
 		if cmd.ProcessState.Success() {
 			DebugLogger.Println("normal exit, restarting now")
