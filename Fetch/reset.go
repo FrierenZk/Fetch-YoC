@@ -49,3 +49,15 @@ func start() {
 		DebugLogger.Println(err)
 	}
 }
+
+func Watch() {
+	if cmd.ProcessState.Exited() {
+		if cmd.ProcessState.Success() {
+			DebugLogger.Println("normal exit, restarting now")
+		} else {
+			DebugLogger.Println("unexpected exit, restarting now")
+		}
+		kill()
+		start()
+	}
+}
