@@ -18,10 +18,13 @@ func main() {
 		log.Fatal(err)
 	}
 	defer LogExit(nil)
-	var update, watch, tick = time.After(updateFreq), time.After(watchFreq), time.After(tickFreq)
+	var update, watch, tick = time.NewTicker(updateFreq), time.NewTicker(watchFreq), time.NewTicker(tickFreq)
+	defer update.Stop()
+	defer watch.Stop()
+	defer tick.Stop()
 	for {
 		select {
-		case <-update:
+		case <-update.C:
 			latestVer, err := Fetch.GitHubDownloadGet()
 			if err != nil {
 				DebugLogger.Println(err)
@@ -33,9 +36,9 @@ func main() {
 			if latestVer != originVer {
 				Fetch.Update()
 			}
-		case <-watch:
+		case <-watch.C:
 			Fetch.Watch()
-		case <-tick:
+		case <-tick.C:
 			DebugLogger.Println(time.Now(), "  time tick")
 		}
 	}
