@@ -34,6 +34,8 @@ func main() {
 			if latestVer != originVer {
 				Fetch.Update()
 			}
+		case <-time.After(watchFreq):
+			Fetch.Watch()
 		case <-time.After(checkFreq):
 			update <- ""
 		case <-time.After(tickFreq):
