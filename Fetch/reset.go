@@ -38,13 +38,9 @@ func start() {
 	}
 	filepath := Envpath.GetAppDir() + "/YoC/YoC.bin"
 	cmd = exec.Command(filepath, "")
-	var err error
 	cmd.Stderr = GetLogWriter()
 	cmd.Stdout = GetLogWriter()
-	if err != nil {
-		DebugLogger.Println(err)
-	}
-	err = cmd.Start()
+	err := cmd.Start()
 	if err != nil {
 		DebugLogger.Println(err)
 	}
@@ -54,7 +50,12 @@ func Watch() {
 	if cmd == nil {
 		return
 	}
-	if cmd.ProcessState.Exited() {
+	stat := cmd.ProcessState
+	if stat == nil {
+		DebugLogger.Println("stat is nil")
+		return
+	}
+	if stat.Exited() {
 		if cmd.ProcessState.Success() {
 			DebugLogger.Println("normal exit, restarting now")
 		} else {
