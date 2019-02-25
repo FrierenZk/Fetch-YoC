@@ -9,7 +9,7 @@ import (
 )
 
 const watchFreq = time.Minute
-const checkFreq = time.Minute * 5
+const updateFreq = time.Minute * 5
 const tickFreq = time.Hour
 
 func main() {
@@ -18,8 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer LogExit(nil)
-	var update = make(chan string, 1)
-	update <- ""
+	var update, watch, tick = time.After(updateFreq), time.After(watchFreq), time.After(tickFreq)
 	for {
 		select {
 		case <-update:
@@ -34,11 +33,9 @@ func main() {
 			if latestVer != originVer {
 				Fetch.Update()
 			}
-		case <-time.After(watchFreq):
+		case <-watch:
 			Fetch.Watch()
-		case <-time.After(checkFreq):
-			update <- ""
-		case <-time.After(tickFreq):
+		case <-tick:
 			DebugLogger.Println(time.Now(), "  time tick")
 		}
 	}
