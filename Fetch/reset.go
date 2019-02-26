@@ -22,7 +22,7 @@ func kill() {
 	if err != nil {
 		DebugLogger.Println(err)
 	}
-	err = cmd.Wait()
+	err = cmd.Process.Release()
 	if err != nil {
 		DebugLogger.Println(err)
 	}
@@ -44,24 +44,27 @@ func start() {
 	if err != nil {
 		DebugLogger.Println(err)
 	}
+	go func() {
+		DebugLogger.Println("the process runs successfully")
+		DebugLogger.Println("listening now . . .")
+		err := cmd.Wait()
+		DebugLogger.Println(err)
+	}()
 }
 
 func Watch() {
 	if cmd == nil {
-		return
-	}
-	stat := cmd.ProcessState
-	if stat == nil {
-		DebugLogger.Println("stat is nil")
-		return
-	}
-	if stat.Exited() {
-		if cmd.ProcessState.Success() {
-			DebugLogger.Println("normal exit, restarting now")
-		} else {
-			DebugLogger.Println("unexpected exit, restarting now")
-		}
-		kill()
 		start()
+		return
+	} else {
+		stat := cmd.ProcessState
+		if stat == nil {
+			return
+		} else {
+			DebugLogger.Println(stat.String())
+			DebugLogger.Println(stat.UserTime())
+			kill()
+			start()
+		}
 	}
 }
