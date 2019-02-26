@@ -27,13 +27,13 @@ func main() {
 		case <-start.C:
 			//Work only once
 			Update()
+			Fetch.Watch()
 		case <-update.C:
 			Update()
 		case <-watch.C:
 			Fetch.Watch()
 		case <-tick.C:
 			DebugLogger.Println(time.Now(), "  time tick")
-
 		}
 	}
 }
